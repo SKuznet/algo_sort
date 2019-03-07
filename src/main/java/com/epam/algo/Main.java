@@ -10,45 +10,18 @@ public class Main {
     private static int[] helperArray;
 
     public static void main(String[] args) {
-        String varNumbers = null;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            varNumbers = reader.readLine().replaceAll("\\s+", "");
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
-        if (varNumbers == null) {
-            throw new IllegalArgumentException("please add some digits");
-        }
-
-        String[] stringsArray = varNumbers.split(",");
-        inputArray = new int[stringsArray.length];
-        helperArray = new int[stringsArray.length];
-
-        try {
-            for (int i = 0; i < stringsArray.length; i++) {
-                inputArray[i] = Integer.parseInt(stringsArray[i]);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
+        inputArray = fillArray();
 
         Main main = new Main();
 
         // bubbleSort
 //        System.out.println(Arrays.toString(main.bubbleSortArray(inputArray)));
-        mergeSort(0, inputArray.length -1);
+        mergeSort(0, inputArray.length - 1);
         System.out.println(Arrays.toString(inputArray));
     }
 
-    public void sort(int[] inputArray) {
-        Main.inputArray = inputArray;
-        Main.helperArray = new int[inputArray.length];
-        mergeSort(0, inputArray.length -1);
-    }
-
     private static void mergeSort(int lowerBoundary, int higherBoundary) {
-        if(lowerBoundary < higherBoundary) {
+        if (lowerBoundary < higherBoundary) {
             int middleBoundary = lowerBoundary + (higherBoundary - lowerBoundary) / 2;
             mergeSort(lowerBoundary, middleBoundary);
             mergeSort(middleBoundary + 1, higherBoundary);
@@ -57,7 +30,7 @@ public class Main {
     }
 
     private static void merge(int lowerBoundary, int middleBoundary, int higherBoundary) {
-        for (int i = lowerBoundary; i <= higherBoundary ; i++) {
+        for (int i = lowerBoundary; i <= higherBoundary; i++) {
             helperArray[i] = inputArray[i];
         }
 
@@ -81,6 +54,38 @@ public class Main {
             k++;
             i++;
         }
+    }
+
+    private static int[] fillArray() {
+        String varNumbers = null;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            varNumbers = reader.readLine().replaceAll("\\s+", "");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        if (varNumbers == null) {
+            throw new IllegalArgumentException("please add some digits");
+        }
+
+        String[] stringsArray = varNumbers.split(",");
+        inputArray = new int[stringsArray.length];
+        helperArray = new int[stringsArray.length];
+
+        try {
+            for (int i = 0; i < stringsArray.length; i++) {
+                inputArray[i] = Integer.parseInt(stringsArray[i]);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return inputArray;
+    }
+
+    public void sort(int[] inputArray) {
+        Main.inputArray = inputArray;
+        Main.helperArray = new int[inputArray.length];
+        mergeSort(0, inputArray.length - 1);
     }
 
     private int[] bubbleSortArray(int[] arr) {
